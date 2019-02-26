@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // called when response HTTP status is "200 OK"
                 Log.d("Bitcoin", "JSON: " + response.toString());
-                Double price = parseJson(response);
-                mPriceTextView.setText(Double.toString(price));
-//                WeatherDataModel weatherData = WeatherDataModel.fromJson(response);
-//                updateUI(weatherData);
+                //Double price = parseJson(response);
+                //mPriceTextView.setText(Double.toString(price));
+                String price = parseJson(response);
+                mPriceTextView.setText(price);
             }
 
             @Override
@@ -92,33 +92,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private double parseJson(JSONObject response) {
+    private String parseJson(JSONObject response) {
         try {
-            double price = response.getDouble("last");
+            // String or double???
+            String price = response.getString("last");
             Log.d("Bitcoin", "Bitcoin price is: " + price);
             return price;
         } catch (JSONException e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
-
-                /*public static WeatherDataModel fromJSON(JSONObject jsonObject) {
-                    try {
-                        WeatherDataModel weatherData = new WeatherDataModel();
-                        weatherData.mCity = jsonObject.getString("name");
-                        weatherData.mCondition = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
-                        weatherData.mIconName = updateWeatherIcon(weatherData.mCondition);
-
-                        double tempResult = (jsonObject.getJSONObject("main").getDouble("temp") - 273.15) * 9/5 + 32;
-                        int roundedTemp = (int) Math.rint(tempResult);
-                        weatherData.mTemperature = Integer.toString(roundedTemp);
-
-                        return weatherData;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-                }*/
     }
 
 }
